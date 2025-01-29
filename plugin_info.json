@@ -1,0 +1,7 @@
+{
+  "name": "MindRoot Reddit Bot",
+  "version": "0.1.0",
+  "description": "Reddit bot plugin for monitoring r/ai_agents and triggering chat sessions",
+  "services": ["init_reddit_client", "monitor_subreddit", "process_reddit_post", "start_monitoring"],
+  "commands": ["reddit_reply"]
+}
