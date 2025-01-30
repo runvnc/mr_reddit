@@ -58,33 +58,18 @@ async def process_reddit_post(post, context=None):
         }
 
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
-        await init_chat_session(
-            user=os.getenv('REDDIT_USERNAME'),
-            agent_name=agent_name,
-            log_id=log_id
-        )
+ 
+        await init_chat_session(os.getenv('REDDIT_USERNAME'), agent_name, log_id)
 
         subreddit = os.getenv('REDDIT_SUBREDDIT')
         if not subreddit:
             logger.error("REDDIT_SUBREDDIT environment variable not set")
             return False
-
         
-        message = {
-            "type": "text",
-            "text": f"New post from r/{subreddit}:\n\nTitle: {post.title}\n\n{post.selftext}",
-            "metadata": {
-                "post_id": post.id,
-                "log_id": log_id,
-                "subreddit": subreddit
-            }
-        }
+        message = f"New post from r/{subreddit}:\npost_id: post.id\n\nTitle: {post.title}\n\n{post.selftext}"
+        user_ = user={"username": os.getenv('REDDIT_USERNAME') }
 
-        await send_message_to_agent(
-            session_id=log_id,
-            message=message,
-            user={"username": os.getenv('REDDIT_USERNAME') }
-        )
+        await send_message_to_agent(log_id, message, user=user_ )
         
         logger.info(f"Successfully processed post {post.id}")
         return True
