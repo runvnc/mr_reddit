@@ -176,7 +176,7 @@ async def monitoring_loop(context=None):
 @hook()
 async def startup(app, context=None):
     """Start the monitoring service."""
-     global monitor_task
+    global monitor_task
     debug_box("Started monitoring subreddit")
     # Start monitoring in background task
     try:
