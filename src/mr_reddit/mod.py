@@ -126,6 +126,8 @@ async def monitor_subreddit(context=None):
         # Infinite stream of new posts
         async for post in subreddit.stream.submissions():
             try:
+                print("Found new post!")
+                print(post)
                 if not await processed_posts.is_processed(subreddit_name, post.id):
                     logger.info(f"Processing new post: {post.id}")
                     # Process post with timeout
