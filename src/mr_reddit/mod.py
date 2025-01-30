@@ -152,15 +152,38 @@ async def monitor_subreddit(context=None):
             if (current_time - data['timestamp']).total_seconds() < 86400
         }
 
+           if (current_time - data['timestamp']).total_seconds() < 86400
+       }
+        print("Getting new posts from Reddit API")
         new_posts = subreddit.new(limit=10)
-        print("Got new posts")
+        
+        # Short timeout for initial fetch of posts
+        try:
+            async with asyncio.timeout(10):
+                print("Converting async iterator to list...")
+                posts = [post async for post in new_posts]
+                print(f"Found {len(posts)} posts")
+        except asyncio.TimeoutError:
+            print("Timeout while fetching posts list")
+            return False
+        except Exception as e:
+            print(f"Error fetching posts: {str(e)}\n{traceback.format_exc()}")
+            return False
+
         print(f"Processed posts count: {len(processed_posts)}")
-        print(new_posts)
-        async for post in new_posts:
+        
+        # Process each post with its own timeout
+        for post in posts:
             print(f"Checking post: {post.id}")
             if post.id not in processed_posts:
                 logger.info(f"New post found: {post.id}")
-                await process_reddit_post(post, context)
+                try:
+                    async with asyncio.timeout(90):  # 90 second timeout per post
+                        await process_reddit_post(post, context)
+                except asyncio.TimeoutError:
+                    print(f"Timeout processing post {post.id}")
+                except Exception as e:
+                    print(f"Error processing post {post.id}: {str(e)}\n{traceback.format_exc()}")
 
         return True
     except Exception as e:
