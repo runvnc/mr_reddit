@@ -1,6 +1,8 @@
 from lib.providers.services import service
 from lib.providers.commands import command
+from lib.providers.hooks import hook
 from lib.chatcontext import ChatContext
+from lib.utils.debug import debug_box
 import asyncpraw
 import os
 from dotenv import load_dotenv
@@ -128,7 +130,7 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
 async def monitor_subreddit(context=None):
     """Monitor the configured subreddit (from REDDIT_SUBREDDIT env var) for new posts."""
     global reddit_client, processed_posts
-    
+    debub_box("Checking subreddit")
     try:
         if reddit_client is None:
             success = await init_reddit_client(context)
@@ -137,6 +139,8 @@ async def monitor_subreddit(context=None):
                 return False
         
         subreddit_name = os.getenv('REDDIT_SUBREDDIT')
+        debug_box(f"Subbreddit name: {subreddit_name}")
+
         if not subreddit_name:
             logger.error("REDDIT_SUBREDDIT environment variable not set")
             return False
@@ -162,9 +166,12 @@ async def monitor_subreddit(context=None):
         return False
 
 # Start monitoring when plugin loads
-@service()
-async def start_monitoring(context=None):
+@hook()
+async def startup(app, context=None):
     """Start the monitoring service."""
+    debug_box("Started monitoring subreddit")
+    await asyncio.sleep(15)
     while True:
         await monitor_subreddit(context)
         await asyncio.sleep(60)  # Wait 60 seconds between checks
+
