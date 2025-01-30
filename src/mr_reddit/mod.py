@@ -156,7 +156,16 @@ async def monitor_subreddit(context=None):
 async def startup(app, context=None):
     """Start the monitoring service."""
     debug_box("Started monitoring subreddit")
-    while True:
-        await monitor_subreddit(context)
-        await asyncio.sleep(60)  # Wait 60 seconds between checks
-
+    # we need a way using asyncio to have this run in an interval in the background
+    # as it is, it blocks the other startup hooks etc.
+    # so I will comment out the while look to start
+    #while True:
+    #    await monitor_subreddit(context)
+    #    await asyncio.sleep(60)  # Wait 60 seconds between checks
+    # new approach follows: 
+    # we will use the asyncio.create_task to run the monitor_subreddit function in the background
+    # this will allow the plugin to continue loading and the bot to be responsive
+    # while the monitoring service runs in the background
+    # we will also use a while loop to keep the task running indefinitely
+    # and restart it if it fails
+    #
