@@ -159,6 +159,8 @@ async def monitor_subreddit(context=None):
 
         return True
     except Exception as e:
+        trace = traceback.format_exc()
+        print(f"Error monitoring subreddit: {str(e)}\n{trace}")
         logger.error(f"Error monitoring subreddit: {str(e)}")
         return False
 
