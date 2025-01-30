@@ -12,6 +12,7 @@ import json
 from typing import Optional, Dict
 from datetime import datetime, timezone
 import logging
+import traceback
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -155,10 +156,13 @@ async def monitoring_loop(context=None):
     """Background task to continuously monitor subreddit."""
     while True:
         try:
+            print("Calling monitor_subreddit")
             await monitor_subreddit(context)
         except Exception as e:
+            trace = traceback.format_exc()
+            print(f"Error in monitoring loop: {str(e)}\n{trace}")
             logger.error(f"Error in monitoring loop: {str(e)}")
-        await asyncio.sleep(60)  # Wait 60 seconds between checks
+        await asyncio.sleep(20)  # Wait 60 seconds between checks
 
 # Start monitoring when plugin loads
 @hook()
@@ -167,3 +171,4 @@ async def startup(app, context=None):
     debug_box("Started monitoring subreddit")
     # Start monitoring in background task
     asyncio.create_task(monitoring_loop(context))
+
