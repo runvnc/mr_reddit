@@ -121,7 +121,7 @@ async def monitor_subreddit(context=None):
             return
 
         logger.info(f"Starting stream for r/{subreddit_name}")
-        subreddit = await reddit_client.subreddit(subreddit_name)
+        subreddit = await reddit_client.subreddit(subreddit_name, fetch=True)
         print(subreddit.display_name)
         print(subreddit.title)
         # get a random limit between 60 and 80
