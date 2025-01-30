@@ -156,7 +156,7 @@ async def monitor_subreddit(context=None):
         # Let monitoring_loop restart us
         return
 
-@hook()
+#@hook()
 async def startup(app, context=None):
     """Start the monitoring service."""
     try:
@@ -165,3 +165,11 @@ async def startup(app, context=None):
     except Exception as e:
         trace = traceback.format_exc()
         logger.error(f"Startup error: {str(e)}\n{trace}")
+
+# need to call monitor_subreddit in a loop to keep the service running
+# this is a workaround until we have a proper way to run services in the background
+while True:
+    asyncio.sleep(30)
+    asyncio.run(monitor_subreddit())
+    
+
