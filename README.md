@@ -1,52 +1,48 @@
 # MindRoot Reddit Bot Plugin
 
-A plugin for MindRoot that monitors r/ai_agents subreddit and creates chat sessions for new posts.
+A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors r/ai_agents subreddit and creates chat sessions for new posts.
 
 ## Installation
 
-1. Clone this repository or copy files to your plugins directory
-2. Install the package:
-   ```bash
-   pip install -e .
-   ```
-3. Copy `.env.example` to `.env` and fill in your Reddit API credentials:
-   ```bash
-   cp .env.example .env
-   ```
+1. In the MindRoot Admin page UI, go to the Plugins section
+2. Click 'Install from Github' button
+3. Enter: `runvnc/mr_reddit`
+4. Click Install
+5. Restart MindRoot
 
 ## Configuration
 
-### Reddit API Credentials
+### Reddit Setup Requirements
 
-You'll need to create a Reddit application to get API credentials:
+1. **Create a Reddit Account for the Bot**:
+   - Create a regular Reddit account
+   - Username should include 'bot' (e.g., 'mindroot_bot')
+   - Set up profile to clearly indicate it's a bot
+   - Note the username and password
 
-1. Go to https://www.reddit.com/prefs/apps
-2. Click "create another app..."
-3. Fill in the required information:
-   - Name: MindRoot Bot
-   - Type: Script
-   - Description: Bot for monitoring r/ai_agents
-   - About URL: (optional)
-   - Redirect URI: http://localhost:8080
+2. **Create a Reddit Application**:
+   - Go to https://www.reddit.com/prefs/apps
+   - Click "create another app..."
+   - Fill in the required information:
+     - Name: MindRoot Bot
+     - Type: Script
+     - Description: Bot for monitoring r/ai_agents
+     - About URL: (optional)
+     - Redirect URI: http://localhost:8080
+   - After creating the app, you'll get:
+     - client_id (under the app name)
+     - client_secret
 
-4. After creating the app, you'll get:
-   - client_id (under the app name)
-   - client_secret
-
-Add these to your `.env` file:
-
-```
-REDDIT_CLIENT_ID=your_client_id
-REDDIT_CLIENT_SECRET=your_client_secret
-```
-
-### Agent Configuration
-
-Set the default agent name in `.env`:
-
-```
-DEFAULT_AGENT_NAME=your_agent_name
-```
+3. **Configure Environment Variables**:
+   Create a `.env` file in the plugin directory with:
+   ```
+   REDDIT_CLIENT_ID=your_client_id
+   REDDIT_CLIENT_SECRET=your_client_secret
+   REDDIT_USERNAME=your_bot_username
+   REDDIT_PASSWORD=your_bot_password
+   REDDIT_USER_AGENT=MindRoot Reddit Bot v0.1.0
+   DEFAULT_AGENT_NAME=your_agent_name
+   ```
 
 ## How It Works
 
@@ -56,8 +52,24 @@ DEFAULT_AGENT_NAME=your_agent_name
    - Creates a new chat session
    - Formats the post content
    - Sends it to the specified agent
-4. Tracks processed posts to avoid duplicates
-5. Cleans up old processed posts after 24 hours
+4. The agent can reply using the `reddit_reply` command
+5. Tracks processed posts to avoid duplicates
+6. Cleans up old processed posts after 24 hours
+
+## Available Commands
+
+### reddit_reply
+Allows the agent to reply to Reddit posts.
+
+Example:
+```json
+{
+    "reddit_reply": {
+        "post_id": "abc123",
+        "reply_text": "This is my response to the Reddit post."
+    }
+}
+```
 
 ## Services
 

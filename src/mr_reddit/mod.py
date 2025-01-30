@@ -10,17 +10,13 @@ from typing import Optional, Dict
 from datetime import datetime, timezone
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
-# Store Reddit client instance
 reddit_client: Optional[asyncpraw.Reddit] = None
 
-# Track processed posts and their data
 processed_posts: Dict[str, dict] = {}
 
 @service()
@@ -50,26 +46,21 @@ async def init_reddit_client(context=None):
 async def process_reddit_post(post, context=None):
     """Process a Reddit post and create a chat session."""
     try:
-        # Create unique log_id for this chat session
         log_id = f"reddit_{post.id}_{int(datetime.now(timezone.utc).timestamp())}"
-        
-        # Store post data for later use
+
         processed_posts[post.id] = {
             'log_id': log_id,
             'post': post,
             'timestamp': datetime.now(timezone.utc)
         }
-        
-        # Initialize chat session
+
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
-        await context.service_manager.call_service(
-            'init_chat_session',
-            user="reddit_bot",
+        await context.init_chat_session(
+            user=os.getenv('REDDIT_USERNAME'),
             agent_name=agent_name,
             log_id=log_id
         )
-        
-        # Format post content
+
         message = {
             "type": "text",
             "text": f"New post from r/ai_agents:\n\nTitle: {post.title}\n\n{post.selftext}",
@@ -78,13 +69,11 @@ async def process_reddit_post(post, context=None):
                 "log_id": log_id
             }
         }
-        
-        # Send message to agent
-        await context.service_manager.call_service(
-            'send_message_to_agent',
+
+        await context.send_message_to_agent(
             session_id=log_id,
             message=message,
-            user={"username": "reddit_bot"}
+            user={"username": os.getenv('REDDIT_USERNAME') }
         )
         
         logger.info(f"Successfully processed post {post.id}")
