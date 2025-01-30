@@ -118,6 +118,7 @@ async def monitor_subreddit(context=None):
     """Monitor the configured subreddit (from REDDIT_SUBREDDIT env var) for new posts."""
     global reddit_client, processed_posts
     debug_box("Checking subreddit")
+     print("Starting monitor_subreddit function")
     try:
         if reddit_client is None:
             success = await init_reddit_client(context)
@@ -125,6 +126,7 @@ async def monitor_subreddit(context=None):
                 logger.error("Failed to initialize Reddit client")
                 return False
 
+         print("Reddit client initialized, getting subreddit name")
         subreddit_name = os.getenv('REDDIT_SUBREDDIT')
         debug_box(f"Subbreddit name: {subreddit_name}")
 
@@ -132,7 +134,15 @@ async def monitor_subreddit(context=None):
             logger.error("REDDIT_SUBREDDIT environment variable not set")
             return False
 
-        subreddit = await reddit_client.subreddit(subreddit_name)
+        print("Getting subreddit object")
+        try:
+            async with asyncio.timeout(10):  # 10 second timeout
+                subreddit = await reddit_client.subreddit(subreddit_name)
+                print("Successfully got subreddit object")
+        except asyncio.TimeoutError:
+            print("Timeout getting subreddit object")
+            return False
+        print("Cleaning up old posts")
 
         # Clean up old processed posts (older than 24 hours)
         current_time = datetime.now(timezone.utc)
@@ -162,6 +172,7 @@ async def monitoring_loop(context=None):
             print("Calling monitor_subreddit")
             print(f"Context object: {context}")
             print(f"Reddit client state: {reddit_client}")
+            print(f"Processed posts count: {len(processed_posts)}")
             print(f"Current task: {asyncio.current_task()}")
             await monitor_subreddit(context)
             print("Successfully completed monitor_subreddit call")
