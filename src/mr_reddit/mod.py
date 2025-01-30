@@ -122,8 +122,8 @@ async def monitor_subreddit(context=None):
 
         logger.info(f"Starting stream for r/{subreddit_name}")
         subreddit = await reddit_client.subreddit(subreddit_name, fetch=True)
-        print(subreddit.display_name)
-        print(subreddit.title)
+        print("display name: ", subreddit.display_name)
+        print("title:", subreddit.title)
         # get a random limit between 60 and 80
         rand_limit = 60 + int(os.urandom(1)[0]) % 20
         # Infinite stream of new posts
