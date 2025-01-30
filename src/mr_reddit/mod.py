@@ -154,19 +154,19 @@ async def monitor_subreddit(context=None):
 
 async def monitoring_loop(context=None):
     """Background task to continuously monitor subreddit."""
-     print("=== Monitoring loop started ====")
-     loop = asyncio.get_running_loop()
-     print(f"Event loop running: {loop.is_running()}")
+    print("=== Monitoring loop started ====")
+    loop = asyncio.get_running_loop()
+    print(f"Event loop running: {loop.is_running()}")
     while True:
         try:
             print("Calling monitor_subreddit")
-             print(f"Context object: {context}")
-             print(f"Reddit client state: {reddit_client}")
-             print(f"Current task: {asyncio.current_task()}")
+            print(f"Context object: {context}")
+            print(f"Reddit client state: {reddit_client}")
+            print(f"Current task: {asyncio.current_task()}")
             await monitor_subreddit(context)
-             print("Successfully completed monitor_subreddit call")
+            print("Successfully completed monitor_subreddit call")
         except Exception as e:
-             print("=== Error in monitoring loop ====")
+            print("=== Error in monitoring loop ====")
             trace = traceback.format_exc()
             print(f"Error in monitoring loop: {str(e)}\n{trace}")
             logger.error(f"Error in monitoring loop: {str(e)}")
