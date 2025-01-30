@@ -152,8 +152,6 @@ async def monitor_subreddit(context=None):
             if (current_time - data['timestamp']).total_seconds() < 86400
         }
 
-           if (current_time - data['timestamp']).total_seconds() < 86400
-       }
         print("Getting new posts from Reddit API")
         new_posts = subreddit.new(limit=10)
         
