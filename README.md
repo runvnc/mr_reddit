@@ -1,6 +1,6 @@
 # MindRoot Reddit Bot Plugin
 
-A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors r/ai_agents subreddit and creates chat sessions for new posts.
+A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors a configured subreddit and creates chat sessions for new posts.
 
 ## Installation
 
@@ -41,13 +41,14 @@ A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors r/ai_a
    REDDIT_USERNAME=your_bot_username
    REDDIT_PASSWORD=your_bot_password
    REDDIT_USER_AGENT=MindRoot Reddit Bot v0.1.0
+   REDDIT_SUBREDDIT=ai_agents
    DEFAULT_AGENT_NAME=your_agent_name
    ```
 
 ## How It Works
 
 1. The plugin initializes a Reddit client using PRAW
-2. Monitors r/ai_agents subreddit for new posts
+2. Monitors the configured subreddit for new posts
 3. When a new post is detected:
    - Creates a new chat session
    - Formats the post content

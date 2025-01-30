@@ -61,12 +61,19 @@ async def process_reddit_post(post, context=None):
             log_id=log_id
         )
 
+        subreddit = os.getenv('REDDIT_SUBREDDIT')
+        if not subreddit:
+            logger.error("REDDIT_SUBREDDIT environment variable not set")
+            return False
+
+        
         message = {
             "type": "text",
-            "text": f"New post from r/ai_agents:\n\nTitle: {post.title}\n\n{post.selftext}",
+            "text": f"New post from r/{subreddit}:\n\nTitle: {post.title}\n\n{post.selftext}",
             "metadata": {
                 "post_id": post.id,
-                "log_id": log_id
+                "log_id": log_id,
+                "subreddit": subreddit
             }
         }
 
@@ -119,7 +126,7 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
 
 @service()
 async def monitor_subreddit(context=None):
-    """Monitor r/ai_agents subreddit for new posts."""
+    """Monitor the configured subreddit (from REDDIT_SUBREDDIT env var) for new posts."""
     global reddit_client, processed_posts
     
     try:
@@ -129,7 +136,12 @@ async def monitor_subreddit(context=None):
                 logger.error("Failed to initialize Reddit client")
                 return False
         
-        subreddit = await reddit_client.subreddit('ai_agents')
+        subreddit_name = os.getenv('REDDIT_SUBREDDIT')
+        if not subreddit_name:
+            logger.error("REDDIT_SUBREDDIT environment variable not set")
+            return False
+
+        subreddit = await reddit_client.subreddit(subreddit_name)
         
         # Clean up old processed posts (older than 24 hours)
         current_time = datetime.now(timezone.utc)
