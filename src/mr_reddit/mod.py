@@ -152,7 +152,12 @@ async def monitor_subreddit(context=None):
             if (current_time - data['timestamp']).total_seconds() < 86400
         }
 
-        async for post in subreddit.new(limit=10):
+        new_posts = subreddit.new(limit=10)
+        print("Got new posts")
+        print(f"Processed posts count: {len(processed_posts)}")
+        print(new_posts)
+        async for post in new_posts:
+            print(f"Checking post: {post.id}")
             if post.id not in processed_posts:
                 logger.info(f"New post found: {post.id}")
                 await process_reddit_post(post, context)
