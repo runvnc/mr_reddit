@@ -130,7 +130,7 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
 async def monitor_subreddit(context=None):
     """Monitor the configured subreddit (from REDDIT_SUBREDDIT env var) for new posts."""
     global reddit_client, processed_posts
-    debub_box("Checking subreddit")
+    debug_box("Checking subreddit")
     try:
         if reddit_client is None:
             success = await init_reddit_client(context)
@@ -170,7 +170,6 @@ async def monitor_subreddit(context=None):
 async def startup(app, context=None):
     """Start the monitoring service."""
     debug_box("Started monitoring subreddit")
-    await asyncio.sleep(15)
     while True:
         await monitor_subreddit(context)
         await asyncio.sleep(60)  # Wait 60 seconds between checks
