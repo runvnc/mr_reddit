@@ -1,5 +1,6 @@
 from lib.providers.services import service
 from lib.providers.commands import command
+from coreplugins.chat.services import init_chat_session, send_message_to_agent
 from lib.providers.hooks import hook
 from lib.chatcontext import ChatContext
 from lib.utils.debug import debug_box
@@ -57,7 +58,7 @@ async def process_reddit_post(post, context=None):
         }
 
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
-        await context.init_chat_session(
+        await init_chat_session(
             user=os.getenv('REDDIT_USERNAME'),
             agent_name=agent_name,
             log_id=log_id
@@ -79,7 +80,7 @@ async def process_reddit_post(post, context=None):
             }
         }
 
-        await context.send_message_to_agent(
+        await send_message_to_agent(
             session_id=log_id,
             message=message,
             user={"username": os.getenv('REDDIT_USERNAME') }
