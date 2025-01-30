@@ -120,10 +120,10 @@ async def monitor_subreddit(context=None):
             logger.error("REDDIT_SUBREDDIT not set")
             return
 
-        logger.info(f"Starting stream for r/{subreddit_name}")
+        logger.info(f"Updated: Starting stream for r/{subreddit_name}")
         subreddit = await reddit_client.subreddit(subreddit_name, fetch=True)
-        print("display name: ", subreddit.display_name)
-        print("title:", subreddit.title)
+        logger.info("display name: "+ subreddit.display_name)
+        logger.info("title:"+ subreddit.title)
         # get a random limit between 60 and 80
         rand_limit = 60 + int(os.urandom(1)[0]) % 20
         # Infinite stream of new posts
