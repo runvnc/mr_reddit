@@ -160,12 +160,8 @@ async def monitor_subreddit(context=None):
 async def startup(app, context=None):
     """Start the monitoring service."""
     try:
-        # Start monitoring in background task
-        task = asyncio.create_task(monitor_subreddit(context))
-        task.add_done_callback(
-            lambda t: logger.error(f"Monitor task ended: {t.exception() if t.exception() else 'No error'}")
-        )
-        logger.info("Started Reddit monitoring task")
+        # Temporarily run directly instead of as background task
+        await monitor_subreddit(context)
     except Exception as e:
         trace = traceback.format_exc()
         logger.error(f"Startup error: {str(e)}\n{trace}")
