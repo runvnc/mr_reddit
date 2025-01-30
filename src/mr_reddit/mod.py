@@ -118,7 +118,7 @@ async def monitor_subreddit(context=None):
     """Monitor the configured subreddit (from REDDIT_SUBREDDIT env var) for new posts."""
     global reddit_client, processed_posts
     debug_box("Checking subreddit")
-     print("Starting monitor_subreddit function")
+    print("Starting monitor_subreddit function")
     try:
         if reddit_client is None:
             success = await init_reddit_client(context)
@@ -126,7 +126,7 @@ async def monitor_subreddit(context=None):
                 logger.error("Failed to initialize Reddit client")
                 return False
 
-         print("Reddit client initialized, getting subreddit name")
+        print("Reddit client initialized, getting subreddit name")
         subreddit_name = os.getenv('REDDIT_SUBREDDIT')
         debug_box(f"Subbreddit name: {subreddit_name}")
 
