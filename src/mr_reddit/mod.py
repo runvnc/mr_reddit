@@ -126,7 +126,7 @@ async def monitor_subreddit(context=None):
         # get a random limit between 60 and 80
         rand_limit = 60 + int(os.urandom(1)[0]) % 20
         # Infinite stream of new posts
-        async for post in subreddit.hot():
+        async for post in subreddit.new():
             try:
                 print("Found new post!")
                 print(post)
