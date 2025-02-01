@@ -126,10 +126,8 @@ async def monitor_subreddit(context=None):
         await subreddit.load()
         logger.info("display name: "+ subreddit.display_name)
         logger.info("title:"+ subreddit.title)
-        # get a random limit between 60 and 80
-        rand_limit = 60 + int(os.urandom(1)[0]) % 20
         # Infinite stream of new posts
-        async for post in subreddit.top(time_filter="week"):
+        async for post in subreddit.new(time_filter="day"):
             try:
                 print("Found new post!")
                 print(post)
@@ -156,20 +154,16 @@ async def monitor_subreddit(context=None):
         # Let monitoring_loop restart us
         return
 
-#@hook()
+@hook()
 async def startup(app, context=None):
     """Start the monitoring service."""
     try:
-        # Temporarily run directly instead of as background task
-        await monitor_subreddit(context)
+        while True:
+            asyncio.sleep(30)
+            await monitor_subreddit(context)
     except Exception as e:
         trace = traceback.format_exc()
         logger.error(f"Startup error: {str(e)}\n{trace}")
 
-# need to call monitor_subreddit in a loop to keep the service running
-# this is a workaround until we have a proper way to run services in the background
-while True:
-    asyncio.sleep(30)
-    asyncio.run(monitor_subreddit())
     
 
