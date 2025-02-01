@@ -58,8 +58,6 @@ async def process_reddit_post(post, context=None):
         message = f"New post:\npost_id: {post.id}\n\nDate: {created}\n\nTitle: {post.title}\n\n{post.selftext}"
 
         print(message)
-        return True
-        xx = """
         await init_chat_session(os.getenv('REDDIT_USERNAME'), agent_name, log_id)
 
         subreddit = os.getenv('REDDIT_SUBREDDIT')
@@ -73,7 +71,6 @@ async def process_reddit_post(post, context=None):
 
         logger.info(f"Successfully processed post {post.id}")
         return True
-        """
 
     except Exception as e:
         logger.error(f"Error processing post {post.id}: {str(e)}")
@@ -101,6 +98,7 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
 
         # Submit the reply
         comment = await post.reply(reply_text)
+        print("Not actually submitting, but comment is:\n\n", comment)
 
         logger.info(f"Successfully replied to post {post_id}")
         return {
