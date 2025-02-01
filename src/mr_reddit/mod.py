@@ -129,7 +129,6 @@ async def monitor_subreddit(context=None):
         # Infinite stream of new posts
         async for post in subreddit.new(limit=100):
             try:
-                print("Found new post!")
                 print(post)
                 if not await processed_posts.is_processed(subreddit_name, post.id):
                     logger.info(f"Processing new post: {post.id}")
@@ -139,6 +138,7 @@ async def monitor_subreddit(context=None):
                         if success:
                             await processed_posts.mark_processed(subreddit_name, post.id)
                 else:
+                    print("Already processed, skipping")
                     logger.debug(f"Skipping already processed post: {post.id}")
             except asyncio.TimeoutError:
                 logger.error(f"Timeout processing post {post.id}")
@@ -157,7 +157,7 @@ async def monitor_subreddit(context=None):
 async def monitoring_loop():
     try:
         while True:
-            asyncio.sleep(30)
+            await asyncio.sleep(30)
             await monitor_subreddit()
     except Exception as e:
         trace = traceback.format_exc()
