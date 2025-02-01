@@ -41,9 +41,15 @@ A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors a conf
    REDDIT_USERNAME=your_bot_username
    REDDIT_PASSWORD=your_bot_password
    REDDIT_USER_AGENT=MindRoot Reddit Bot v0.1.0
-   REDDIT_SUBREDDIT=ai_agents
+   REDDIT_SUBREDDIT=subreddit_name
    DEFAULT_AGENT_NAME=your_agent_name
    ```
+### Create the MindRoot Agent
+
+Go to `/admin` and the Agents section. Create a new Agent and enter instructions
+for what posts to reply to and how to reply.
+
+Enable the `reply_reply` command for that agent and Save it.
 
 ## How It Works
 
