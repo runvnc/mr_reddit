@@ -98,14 +98,15 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
 
         # Submit the reply
         #comment = await post.reply(reply_text)
-        print("Not actually submitting, but comment is:\n\n", comment)
+        print("Not actually submitting, but comment is:\n\n", reply_text)
 
         logger.info(f"Successfully replied to post {post_id}")
-        return {
-            "success": True,
-            "comment_id": comment.id,
-            "permalink": comment.permalink
-        }
+        return { "success": True}
+        #return {
+        #    "success": True,
+        #    "comment_id": comment.id,
+        #    "permalink": comment.permalink
+        #}
 
     except Exception as e:
         logger.error(f"Error replying to post {post_id}: {str(e)}")
