@@ -154,9 +154,7 @@ async def monitor_subreddit(context=None):
         # Let monitoring_loop restart us
         return
 
-@hook()
-async def startup(app, context=None):
-    """Start the monitoring service."""
+async def monitoring_loop():
     try:
         while True:
             asyncio.sleep(30)
@@ -165,5 +163,9 @@ async def startup(app, context=None):
         trace = traceback.format_exc()
         logger.error(f"Startup error: {str(e)}\n{trace}")
 
-    
+@hook()
+async def startup(app, context=None):
+    print("mr_reddit monitoring start")
+    asyncio.create_task(monitoring_loop())
+
 
