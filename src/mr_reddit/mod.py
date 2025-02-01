@@ -52,7 +52,11 @@ async def process_reddit_post(post, context=None):
     try:
         log_id = f"reddit_{post.id}_{int(datetime.now(timezone.utc).timestamp())}"
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
+        message = f"New post from r/{subreddit}:\npost_id: {post.id}\n\nTitle: {post.title}\n\n{post.selftext}"
 
+        print(message)
+        return True
+        xx = """
         await init_chat_session(os.getenv('REDDIT_USERNAME'), agent_name, log_id)
 
         subreddit = os.getenv('REDDIT_SUBREDDIT')
@@ -60,13 +64,14 @@ async def process_reddit_post(post, context=None):
             logger.error("REDDIT_SUBREDDIT environment variable not set")
             return False
 
-        message = f"New post from r/{subreddit}:\npost_id: {post.id}\n\nTitle: {post.title}\n\n{post.selftext}"
         user_ = {"username": os.getenv('REDDIT_USERNAME')}
 
         await send_message_to_agent(log_id, message, user=user_)
 
         logger.info(f"Successfully processed post {post.id}")
         return True
+        """
+
     except Exception as e:
         logger.error(f"Error processing post {post.id}: {str(e)}")
         return False
