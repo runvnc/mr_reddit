@@ -53,9 +53,8 @@ A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors a conf
    - Creates a new chat session
    - Formats the post content
    - Sends it to the specified agent
-4. The agent can reply using the `reddit_reply` command
+4. The agent can optionally reply using the `reddit_reply` command
 5. Tracks processed posts to avoid duplicates
-6. Cleans up old processed posts after 24 hours
 
 ## Available Commands
 
