@@ -97,16 +97,17 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
             return {"error": f"Post ID {post_id} not found"}
 
         # Submit the reply
-        #comment = await post.reply(reply_text)
-        print("Not actually submitting, but comment is:\n\n", reply_text)
+        comment = await post.reply(reply_text)
+        #print("Not actually submitting, but comment is:\n\n", reply_text)
 
         logger.info(f"Successfully replied to post {post_id}")
-        return { "success": True}
-        #return {
-        #    "success": True,
-        #    "comment_id": comment.id,
-        #    "permalink": comment.permalink
-        #}
+        logger.info(comment)
+        #return { "success": True}
+        return {
+            "success": True,
+            "comment_id": comment.id,
+            "permalink": comment.permalink
+        }
 
     except Exception as e:
         logger.error(f"Error replying to post {post_id}: {str(e)}")
