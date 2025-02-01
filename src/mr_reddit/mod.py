@@ -145,8 +145,7 @@ async def monitor_subreddit(context=None):
                     # Process post with timeout
                     async with asyncio.timeout(90):
                         success = await process_reddit_post(post, context)
-                        if success:
-                            await processed_posts.mark_processed(subreddit_name, post.id)
+                        await processed_posts.mark_processed(subreddit_name, post.id)
                 else:
                     print("Already processed, skipping")
                     logger.debug(f"Skipping already processed post: {post.id}")
