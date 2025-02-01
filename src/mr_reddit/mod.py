@@ -52,7 +52,10 @@ async def process_reddit_post(post, context=None):
     try:
         log_id = f"reddit_{post.id}_{int(datetime.now(timezone.utc).timestamp())}"
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
-        message = f"New post:\npost_id: {post.id}\n\nTitle: {post.title}\n\n{post.selftext}"
+        created_date = datetime.datetime.fromtimestamp(submission.created_utc)
+        created = created_date.strftime("%Y-%m-%d %H:%M:%S UTC")
+
+        message = f"New post:\npost_id: {post.id}\n\nDate: {created}\n\nTitle: {post.title}\n\n{post.selftext}"
 
         print(message)
         return True
