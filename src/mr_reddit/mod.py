@@ -158,7 +158,7 @@ async def monitoring_loop():
     try:
         while True:
             asyncio.sleep(30)
-            await monitor_subreddit(context)
+            await monitor_subreddit()
     except Exception as e:
         trace = traceback.format_exc()
         logger.error(f"Startup error: {str(e)}\n{trace}")
