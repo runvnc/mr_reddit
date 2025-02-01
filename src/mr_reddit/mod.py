@@ -151,6 +151,7 @@ async def monitor_subreddit(context=None):
                     logger.debug(f"Skipping already processed post: {post.id}")
             except asyncio.TimeoutError:
                 logger.error(f"Timeout processing post {post.id}")
+                continue
             except Exception as e:
                 trace = traceback.format_exc()
                 logger.error(f"Error processing post {post.id}: {str(e)}\n{trace}")
