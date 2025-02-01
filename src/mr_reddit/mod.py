@@ -127,7 +127,7 @@ async def monitor_subreddit(context=None):
         logger.info("display name: "+ subreddit.display_name)
         logger.info("title:"+ subreddit.title)
         # Infinite stream of new posts
-        async for post in subreddit.new(time_filter="day"):
+        async for post in subreddit.new(limit=100):
             try:
                 print("Found new post!")
                 print(post)
