@@ -97,7 +97,7 @@ async def reddit_reply(post_id: str, reply_text: str, context=None):
             return {"error": f"Post ID {post_id} not found"}
 
         # Submit the reply
-        comment = await post.reply(reply_text)
+        #comment = await post.reply(reply_text)
         print("Not actually submitting, but comment is:\n\n", comment)
 
         logger.info(f"Successfully replied to post {post_id}")
