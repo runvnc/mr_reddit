@@ -51,7 +51,7 @@ If you have a question about setting this up or anything, you can message me on 
 Go to `/admin` and the Agents section. Create a new Agent and enter instructions
 for what posts to reply to and how to reply.
 
-Enable the `reply_reply` command for that agent and Save it.
+Enable the `reddit_reply` command for that agent and Save it.
 
 ## How It Works
 
