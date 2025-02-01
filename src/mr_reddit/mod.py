@@ -52,7 +52,7 @@ async def process_reddit_post(post, context=None):
     try:
         log_id = f"reddit_{post.id}_{int(datetime.now(timezone.utc).timestamp())}"
         agent_name = os.getenv('DEFAULT_AGENT_NAME', 'default_agent')
-        message = f"New post from r/{subreddit}:\npost_id: {post.id}\n\nTitle: {post.title}\n\n{post.selftext}"
+        message = f"New post:\npost_id: {post.id}\n\nTitle: {post.title}\n\n{post.selftext}"
 
         print(message)
         return True
