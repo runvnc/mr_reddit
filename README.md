@@ -2,6 +2,8 @@
 
 A plugin for [MindRoot](https://github.com/runvnc/mindroot) that monitors a configured subreddit and creates chat sessions for new posts.
 
+If you have a question about setting this up or anything, you can message me on reddit, Discord, or Telegram as `runvnc`.
+
 ## Installation
 
 1. In the MindRoot Admin page UI, go to the Plugins section
