@@ -33,6 +33,7 @@ async def init_reddit_client(context=None):
             await reddit_client.close()
 
         reddit_client = asyncpraw.Reddit(
+            ratelimit_seconds=800,
             client_id=os.getenv('REDDIT_CLIENT_ID'),
             client_secret=os.getenv('REDDIT_CLIENT_SECRET'),
             username=os.getenv('REDDIT_USERNAME'),
