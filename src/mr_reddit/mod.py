@@ -131,11 +131,6 @@ async def monitor_subreddit(context=None):
         async for post in subreddit.stream.submissions():
             try:
                 print(post)
-                # Check if post is within last 24 hours
-                current_time = datetime.now(timezone.utc)
-                post_time = datetime.fromtimestamp(post.created_utc, tz=timezone.utc)
-                if (current_time - post_time).total_seconds() > 86400:  # 24 hours in seconds
-                    continue
                 
                 if not await processed_posts.is_processed(subreddit_name, post.id):
                     logger.info(f"Processing new post: {post.id}")
