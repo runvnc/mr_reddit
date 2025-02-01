@@ -144,7 +144,7 @@ async def monitor_subreddit(context=None):
                 if not await processed_posts.is_processed(subreddit_name, post.id):
                     logger.info(f"Processing new post: {post.id}")
                     # Process post with timeout
-                    async with asyncio.timeout(150):
+                    async with asyncio.timeout(850):
                         success = await process_reddit_post(post, context)
                         await processed_posts.mark_processed(subreddit_name, post.id)
                 else:
